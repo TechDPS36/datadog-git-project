@@ -41,8 +41,9 @@ jobs:
           datadog-ci dora deployment \
             --service "python-hello-world" \
             --env "dev" \
+            --version "1.0.0" \
             --started-at $DEPLOY_START \
             --finished-at $(date +%s) \
             --git-repository-url "${{ github.server_url }}/${{ github.repository }}" \
             --git-commit-sha "${{ github.sha }}" \
-            --custom-tags "version:1.0.0,workflow:python-hello"
+            --custom-tags "workflow:python-hello"

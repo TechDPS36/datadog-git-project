@@ -21,3 +21,28 @@ jobs:
 
       - name: Rodar Hello World
         run: python hello.py
+
+      ###################################################################
+      # 📌  DORA METRICS - ENVIAR EVENTO DE DEPLOY AO DATADOG
+      ###################################################################
+      - name: Definir variáveis DORA
+        run: |
+          echo "DD_BETA_COMMANDS_ENABLED=1" >> $GITHUB_ENV
+          echo "DEPLOY_START=$(date +%s)" >> $GITHUB_ENV
+
+      - name: Instalar Datadog CLI
+        run: npm install -g @datadog/datadog-ci
+
+      - name: Enviar DORA Metrics para Datadog
+        env:
+          DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+          DD_SITE: "datadoghq.com"
+        run: |
+          datadog-ci dora deployment \
+            --service "python-hello-world" \
+            --env "dev" \
+            --started-at $DEPLOY_START \
+            --finished-at $(date +%s) \
+            --git-repository-url "${{ github.server_url }}/${{ github.repository }}" \
+            --git-commit-sha "${{ github.sha }}" \
+            --tags "version:1.0.0,workflow:python-hello"

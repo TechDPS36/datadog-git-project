@@ -45,4 +45,4 @@ jobs:
             --finished-at $(date +%s) \
             --git-repository-url "${{ github.server_url }}/${{ github.repository }}" \
             --git-commit-sha "${{ github.sha }}" \
-            --tags "version:1.0.0,workflow:python-hello"
+            --custom-tags "version:1.0.0,workflow:python-hello"
